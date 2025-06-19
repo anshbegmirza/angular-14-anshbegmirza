@@ -1,10 +1,44 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [];
+import { NgModule, Component } from '@angular/core';
+import { RouterModule, Routes, Route } from '@angular/router';
+import { AddGroupComponent } from './Pages/add-group/add-group.component';
+import { AddExpensesComponent } from './Pages/add-expenses/add-expenses.component';
+import { ViewBalanceComponent } from './Pages/view-balance/view-balance.component';
+import { SettleUpComponent } from './Pages/settle-up/settle-up.component';
+import { ErrorMessageComponent } from './Pages/error-message/error-message.component';
+const routes: Route[] = [
+  {
+    path: '',
+    redirectTo: '/addGroup',
+    pathMatch: 'full',
+  },
+  {
+    path: 'addGroup',
+    component: AddGroupComponent,
+  },
+  {
+    path: 'addExpenses',
+    component: AddExpensesComponent,
+  },
+  {
+    path: 'viewBalance',
+    component: ViewBalanceComponent,
+  },
+  {
+    path: 'settleUp',
+    component: SettleUpComponent,
+  },
+  {
+    path: 'not-found',
+    component: ErrorMessageComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '/not-found',
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

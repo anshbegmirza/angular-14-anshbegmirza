@@ -1,0 +1,27 @@
+Split Expenses App (Splitwise Clone):
+    - Features
+        - Add Group:
+            - Create a group:
+                - Name
+                - Add members(users)
+        - Add Expenses:
+            - Form to create an expense:
+                - Paid by: (select user)
+                - Amount
+                - Description
+                - Split between: (multi-select users from group)
+                - Split type:
+                    - Evenly
+                    - Custom amounts
+            - Example:
+                - Alice pays ₹1200, shared between Alice, Bob, and Charlie.
+                - Split evenly: Each owes ₹400, Alice is owed ₹800.
+        - View Balances:
+            - List view showing who owes whom how much.
+                - “Bob owes Alice ₹400”
+                - “Charlie owes Alice ₹400”
+            - Optionally show net balance per person.
+        - Settle Up:
+            - Select who is paying whom and how much.
+            - Update balances accordingly.
+            - Cannot settle more than owed amount.

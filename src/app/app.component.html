@@ -1,5 +1,36 @@
-<div class="container">
-  <h1>Starting Test Now !</h1>
-  <hr>
-  <button class="btn btn-outline-primary ">testing bootstrap</button>
+<div class="container-fluid outline">
+
+  <div class="main">
+    <div class="main-sidebar sidebar border-end">
+      <!-- <div class="sidebar-header border-bottom">
+        <div class="sidebar-brand">SplitWise : anshbegmirza</div>
+      </div> -->
+
+      <ul class="list-group main-sidebar-list d-flex flex-column">
+        <!-- <li class="nav-title">Sections</li> -->
+
+        <li class="list-item m-1 main-sidebar-list-item" *ngFor="let route of routes">
+          <a [routerLink]="route.path" class="nav-link link-secondary">
+            <i class={{route.icon}}></i>
+            {{route.name}}
+          </a>
+        </li>
+      </ul>
+
+    </div>
+    <!-- main content -->
+    <div class="main-container">
+      <div class="main-title">
+        <h1 class="main-container-title">SplitWise : <span>anshbegmirza</span></h1>
+        <hr>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <footer class="text-center footer">
+    <div class="text-center">
+      Made with ❤️ by anshbegmirza, &copy; {{year}}
+    </div>
+  </footer>
+
 </div>
