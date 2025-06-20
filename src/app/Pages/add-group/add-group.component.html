@@ -1,14 +1,30 @@
 <div class="container">
-  <div class="form">
+  <form [formGroup]="addGroupForm" class="form">
     <div class="form-group">
-      <label for="Name">Group Name</label>
-      <input type="text" name="" class="form-control" id="">
+      <label for="name" class="form-label">Group Name :</label>
+      <input type="text" name="name" class="form-control form-input p-1" id="" formControlName="name">
+
+      <!-- Validation texts -->
+      <span class="help-block" *ngIf="addGroupForm.get('name')?.invalid && addGroupForm.get('name')?.touched">
+        * Please enter a valid Group Name
+      </span>
     </div>
 
-    <div class="form-group">
-      <label for="Add"> Add Members :</label>
-      <input type="checkbox" name="members" id="">
+    <div class="form-group mt-lg-4">
+      <label for="Add" class="form-label"> Add Members :</label>
+      <div formArrayName="members">
+        <div class="form-check d-flex align-content-center align-items-center gap-3"
+          *ngFor="let user of users; let i = index">
+          <input type="checkbox" class="form-check-input" [formControlName]="i" [id]="user.id">
+          <label class="form-check-label mt-2" [for]="user.id">
+            {{user.name}}
+          </label>
+        </div>
+      </div>
     </div>
+  </form>
+  <div class="form-actionables mt-lg-4 d-flex gap-3 w-25 justify-content-between">
+    <button class="btn btn-danger  btn-lg" [disabled]="!addGroupForm.valid" (click)="onReset()">Delete</button>
+    <button class="btn btn-primary btn-lg" [disabled]="!addGroupForm.valid" (click)="onSubmit()">Submit</button>
   </div>
-  <button class="btn btn-primary btn-lg">Submit</button>
 </div>

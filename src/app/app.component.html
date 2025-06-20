@@ -15,18 +15,39 @@
             {{route.name}}
           </a>
         </li>
+        <li class="list-item m-1 main-sidebar-list-item">
+          <a (click)="onClear()" class="nav-link link-secondary">
+            <i class="bi bi-trash3"></i>
+            Clear Storage
+          </a>
+        </li>
       </ul>
-
     </div>
     <!-- main content -->
     <div class="main-container">
-      <div class="main-title">
+      <div class="main-title d-flex justify-content-between">
         <h1 class="main-container-title">SplitWise : <span>anshbegmirza</span></h1>
-        <hr>
+
       </div>
+      <hr>
+
       <router-outlet></router-outlet>
     </div>
   </div>
+
+  <!-- Confirmation div -->
+  <div class="overlay" *ngIf="showDeleteDialog">
+    <mat-card class="delete-card">
+      <mat-card-header>
+        <mat-card-title>Are you sure you want to delete all ?</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions class="d-flex justify-content-between">
+        <button class="btn delete-btn btn-primary btn-sm m-2" (click)="onClear()">Cancel</button>
+        <button class="btn delete-btn btn-danger btn-sm m-2" (click)="onReset()">Yes, Delete</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
   <footer class="text-center footer">
     <div class="text-center">
       Made with ❤️ by anshbegmirza, &copy; {{year}}

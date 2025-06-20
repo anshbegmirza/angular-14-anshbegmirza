@@ -1,1 +1,31 @@
-<p>add-expenses works!</p>
+<div class="container">
+  <form class="form">
+
+    <div class="form-group d-flex justify-content-between gap-lg-3 align-items-center mb-4">
+      <label for="paidby" class="form-label">Paid By </label>
+      <select class="form-select form-select-lg" id="paidby">
+        <option *ngFor="let user of users" value={{user.id}}>{{user.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group d-flex justify-content-between gap-lg-3 align-items-center mb-4">
+      <label for="amount" class="form-label">Amount </label>
+      <input type="text" class="form-control form-input" id="amount">
+    </div>
+
+    <div class="form-group d-flex justify-content-between gap-lg-3 align-items-center mb-4">
+      <label for="Description" class="form-label">Description </label>
+      <textarea id="Description" class="form-control form-textarea" rows="3"></textarea>
+    </div>
+
+    <div class="form-group ">
+
+    </div>
+
+    <div class="form-group">
+      <input type="checkbox" name="" id="evenly">
+      <label for="evenly">Evenly</label>
+    </div>
+
+  </form>
+</div>

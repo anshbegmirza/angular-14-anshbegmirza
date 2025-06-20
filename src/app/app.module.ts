@@ -10,6 +10,9 @@ import { ViewBalanceComponent } from './Pages/view-balance/view-balance.componen
 import { SettleUpComponent } from './Pages/settle-up/settle-up.component';
 import { ErrorMessageComponent } from './Pages/error-message/error-message.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +22,15 @@ import { ErrorMessageComponent } from './Pages/error-message/error-message.compo
     SettleUpComponent,
     ErrorMessageComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, NoopAnimationsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NoopAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCardModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

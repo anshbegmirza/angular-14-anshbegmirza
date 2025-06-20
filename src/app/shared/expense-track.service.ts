@@ -23,9 +23,22 @@ export class ExpenseTrackService {
     },
   ];
 
-  group: Group[] = [];
+  groupDb: Group[] = [];
 
-  addNewGroup(g: Group) {
-    this.group.push(g);
+  addNewGroup(g: Group[]) {
+    g.forEach((el) => {
+      this.groupDb.push(el);
+    });
+
+    console.log(this.groupDb);
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem('groupDb', JSON.stringify(this.groupDb));
+  }
+
+  resetLocalStorage() {
+    this.groupDb = [];
+    this.saveToLocalStorage();
   }
 }

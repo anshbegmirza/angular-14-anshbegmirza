@@ -1,3 +1,4 @@
+import { ExpenseTrackService } from './shared/expense-track.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -11,6 +12,10 @@ export class AppComponent implements OnInit {
   year = new Date().getFullYear();
 
   routes: any[] = [];
+
+  constructor(private ExpenseTrackService: ExpenseTrackService) {}
+
+  showDeleteDialog: boolean = false;
 
   ngOnInit(): void {
     this.routes = [
@@ -35,6 +40,15 @@ export class AppComponent implements OnInit {
         icon: 'bi bi-coin',
       },
     ];
-    console.log(this.routes);
+    // console.log(this.routes);
+  }
+
+  onReset() {
+    this.ExpenseTrackService.resetLocalStorage();
+    this.showDeleteDialog = !this.showDeleteDialog;
+  }
+
+  onClear() {
+    this.showDeleteDialog = !this.showDeleteDialog;
   }
 }
