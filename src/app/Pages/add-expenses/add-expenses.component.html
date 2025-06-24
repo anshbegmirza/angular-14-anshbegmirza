@@ -1,30 +1,56 @@
 <div class="container">
-  <form class="form">
+  <form [formGroup]="expenseForm" class="form" (ngSubmit)="onSubmit()">
 
-    <div class="form-group d-flex justify-content-between gap-lg-3 align-items-center mb-4">
-      <label for="paidby" class="form-label">Paid By </label>
-      <select class="form-select form-select-lg" id="paidby">
-        <option *ngFor="let user of users" value={{user.id}}>{{user.name}}</option>
+    <div class="form-group mb-4">
+      <label class="form-label">Select Group</label>
+      <select class="form-control" formControlName="selectedGroup" (change)="onGroupChange()">
+        <option *ngFor="let group of groupDb; let idx = index" [value]="idx">
+          {{ group.name }}
+        </option>
       </select>
     </div>
 
-    <div class="form-group d-flex justify-content-between gap-lg-3 align-items-center mb-4">
-      <label for="amount" class="form-label">Amount </label>
-      <input type="text" class="form-control form-input" id="amount">
+    <div class="form-group mb-4">
+      <label class="form-label">Paid By</label>
+      <select class="form-control" formControlName="paidBy">
+        <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+      </select>
     </div>
 
-    <div class="form-group d-flex justify-content-between gap-lg-3 align-items-center mb-4">
-      <label for="Description" class="form-label">Description </label>
-      <textarea id="Description" class="form-control form-textarea" rows="3"></textarea>
+    <div class="form-group mb-4">
+      <label class="form-label">Amount</label>
+      <input class="form-control" type="number" formControlName="amount">
     </div>
 
-    <div class="form-group ">
-
+    <div class="form-group mb-4">
+      <label class="form-label">Description</label>
+      <textarea formControlName="description" class="form-control" rows="3"></textarea>
     </div>
 
-    <div class="form-group">
-      <input type="checkbox" name="" id="evenly">
-      <label for="evenly">Evenly</label>
+    <div class="form-group mb-4">
+      <label class="form-label">Split between:</label>
+      <div formArrayName="splitBetween">
+        <div *ngFor="let user of users; let i = index"
+          class="form-check d-flex align-content-center align-items-center gap-3">
+          <input type="checkbox" class="form-check-input" [formControlName]="i" (change)="onSplitBetweenChange(i)">
+          <label class="form-check-label mt-2">{{user.name}}</label>
+          <ng-container *ngIf="expenseForm.value.splitType === 'custom' && splitBetweenArray.at(i).value">
+            <input class="form-control mb-4 ms-2" type="number" [formControl]="asFormControl(customAmountsArray.at(i))"
+              placeholder="Amount">
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group mb-4">
+      <label class="form-label">Split type:</label>
+      <input type="radio" formControlName="splitType" value="even" (change)="onSplitTypeChange()"> Evenly
+      <input type="radio" formControlName="splitType" value="custom" (change)="onSplitTypeChange()"> Custom
+    </div>
+
+    <div class="actionables d-flex gap-lg-3">
+      <button class="btn btn-danger btn-lg" [disabled]="!expenseForm.valid" (click)="onReset()">Cancel</button>
+      <button class="btn btn-primary btn-lg" type="submit" [disabled]="!expenseForm.valid">Add Expense</button>
     </div>
 
   </form>

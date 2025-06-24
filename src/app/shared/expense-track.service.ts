@@ -6,7 +6,9 @@ import { User } from './user.model';
   providedIn: 'root',
 })
 export class ExpenseTrackService {
-  constructor() {}
+  constructor() {
+    this.loadFromLocalStorage();
+  }
 
   Users: User[] = [
     {
@@ -31,6 +33,14 @@ export class ExpenseTrackService {
     });
 
     console.log(this.groupDb);
+  }
+
+  loadFromLocalStorage() {
+    let saved = localStorage.getItem('groupDb');
+
+    if (saved) {
+      this.groupDb = JSON.parse(saved);
+    }
   }
 
   saveToLocalStorage() {

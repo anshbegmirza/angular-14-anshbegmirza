@@ -39,3 +39,33 @@ $accent-color-primary: #0e79b2;
 .help-block {
   color: #ff0000;
 }
+
+.error-message {
+  padding: 1rem 1.6rem;
+  background-color: $text-primary-color;
+  color: $accent-color-primary;
+  width: max-content;
+  border-radius: 1.6rem;
+  position: fixed;
+  bottom: 8rem;
+  right: 2rem;
+  animation: fade 2s linear forwards;
+  opacity: 1;
+  h1 {
+    margin-bottom: 0;
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

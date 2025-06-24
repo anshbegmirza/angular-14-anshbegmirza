@@ -28,3 +28,7 @@
     <button class="btn btn-primary btn-lg" [disabled]="!addGroupForm.valid" (click)="onSubmit()">Submit</button>
   </div>
 </div>
+
+<div class="error-message" *ngIf="changeDectected">
+  <h1>Group Added Successfully !</h1>
+</div>
