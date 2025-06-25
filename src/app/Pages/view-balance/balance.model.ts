@@ -1,4 +1,4 @@
-export interface balance {
+export interface Balance {
   from: string;
   to: string;
   amount: number;

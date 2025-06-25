@@ -1,12 +1,14 @@
 <div class="container">
-  <div class="form">
-    <!-- <div class="form-group mb-4">
-      <label class="form-label">Select Group</label>
-      <select class="form-control" formControlName="selectedGroup" (change)="onGroupChange()">
-        <option *ngFor="let group of groupDb; let idx = index" [value]="idx">
-          {{ group.name }}
-        </option>
-      </select>
-    </div> -->
-  </div>
+  <h2>Balances</h2>
+  <ul>
+    <li *ngFor="let b of balances">
+      {{b.from}} owes {{b.to}} ₹{{b.amount}}
+    </li>
+  </ul>
+  <h3>Net Balances</h3>
+  <ul>
+    <li *ngFor="let user of users">
+      {{user.name}}: ₹{{netBalances[user.name] || 0}}
+    </li>
+  </ul>
 </div>

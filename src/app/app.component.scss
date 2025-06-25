@@ -28,8 +28,8 @@ html {
 
   &-sidebar {
     height: 90vh;
-    width: 20%;
-    font-size: 2rem;
+    width: 16%;
+    font-size: 1.6rem;
     padding: 0 !important;
     display: flex;
     flex-direction: column;
@@ -51,6 +51,10 @@ html {
     }
   }
 
+  .active-link {
+    color: $accent-color-primary;
+  }
+
   &-container {
     &-btn {
       font-size: 1.4rem;
@@ -67,6 +71,10 @@ html {
   &-container {
     width: 100%;
   }
+}
+
+.custom-line {
+  opacity: 0.75;
 }
 
 .overlay {

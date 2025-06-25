@@ -12,6 +12,7 @@
             {{route.name}}
           </a>
         </li>
+
         <li class="list-item m-1 main-sidebar-list-item">
           <a (click)="onClear()" class="nav-link link-secondary">
             <i class="bi bi-trash3"></i>
@@ -23,9 +24,14 @@
     <!-- main content -->
     <div class="main-container">
       <div class="main-title d-flex justify-content-between">
-        <h1 class="main-container-title mb-0">SplitWise : <span>anshbegmirza</span></h1>
+        <h1 class="main-container-title mb-0" *ngIf="!showGroupOptions">SplitWise : <span>anshbegmirza</span></h1>
+
+        <!-- show here view group when link is somewhere else. -->
+        <div *ngIf="showGroupOptions">
+          <app-view-group></app-view-group>
+        </div>
       </div>
-      <hr>
+      <hr class="custom-line">
 
       <router-outlet></router-outlet>
     </div>

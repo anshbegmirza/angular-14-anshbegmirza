@@ -13,6 +13,7 @@ import { ErrorMessageComponent } from './Pages/error-message/error-message.compo
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { ViewGroupComponent } from './Pages/view-group/view-group.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +22,7 @@ import { MatCardModule } from '@angular/material/card';
     ViewBalanceComponent,
     SettleUpComponent,
     ErrorMessageComponent,
+    ViewGroupComponent,
   ],
   imports: [
     BrowserModule,

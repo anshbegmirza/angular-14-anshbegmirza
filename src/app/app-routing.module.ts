@@ -5,6 +5,7 @@ import { AddExpensesComponent } from './Pages/add-expenses/add-expenses.componen
 import { ViewBalanceComponent } from './Pages/view-balance/view-balance.component';
 import { SettleUpComponent } from './Pages/settle-up/settle-up.component';
 import { ErrorMessageComponent } from './Pages/error-message/error-message.component';
+import { ViewGroupComponent } from './Pages/view-group/view-group.component';
 const routes: Route[] = [
   {
     path: '',
@@ -14,6 +15,10 @@ const routes: Route[] = [
   {
     path: 'addGroup',
     component: AddGroupComponent,
+  },
+  {
+    path: 'viewGroup',
+    component: ViewGroupComponent,
   },
   {
     path: 'addExpenses',

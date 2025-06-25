@@ -1,6 +1,6 @@
 import { ExpenseTrackService } from './shared/expense-track.service';
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,11 +13,19 @@ export class AppComponent implements OnInit {
 
   routes: any[] = [];
 
-  constructor(private ExpenseTrackService: ExpenseTrackService) {}
+  isLinkGroup = false;
+
+  constructor(
+    private ExpenseTrackService: ExpenseTrackService,
+    private router: Router
+  ) {}
 
   showDeleteDialog: boolean = false;
 
+  showGroupOptions = false;
+
   ngOnInit(): void {
+    const currentUrl: string = window.location.href;
     this.routes = [
       {
         path: '/addGroup',
@@ -25,22 +33,30 @@ export class AppComponent implements OnInit {
         icon: 'bi bi-person-plus-fill',
       },
       {
-        path: '/addExpenses',
-        name: 'Add Expenses',
-        icon: 'bi bi-cash-coin',
-      },
-      {
-        path: '/viewBalance',
-        name: 'View Balance',
-        icon: 'bi bi-bank',
-      },
-      {
-        path: '/settleUp',
-        name: 'Settle Up',
-        icon: 'bi bi-coin',
+        path: '/viewGroup',
+        name: 'View Group',
+        icon: 'bi bi-backpack',
       },
     ];
-    // console.log(this.routes);
+
+    console.log(currentUrl);
+    if (this.ExpenseTrackService.selectedGroup) {
+      console.log(this.ExpenseTrackService.selectedGroup);
+    }
+
+    if (!sessionStorage.getItem('firstLoad')) {
+      sessionStorage.setItem('firstLoad', 'true');
+
+      console.log(
+        'Application loaded for the first time or after a full refresh.'
+      );
+    } else {
+      console.log('Application reloaded (likely a refresh).');
+    }
+  }
+
+  clearFirstLoadFlag() {
+    sessionStorage.removeItem('firstLoad');
   }
 
   onReset() {

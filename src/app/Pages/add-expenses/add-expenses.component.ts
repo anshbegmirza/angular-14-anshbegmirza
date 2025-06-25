@@ -13,7 +13,9 @@ export class AddExpensesComponent implements OnInit {
   groupDb: Group[] = [];
   users: User[] = [];
   expenseForm!: FormGroup;
-  owed = []; //
+  owed = [];
+  selectedGroup: string | null = null;
+  isGroupSelected = false;
   constructor(private expenseService: ExpenseTrackService) {}
 
   ngOnInit() {
@@ -30,6 +32,16 @@ export class AddExpensesComponent implements OnInit {
       splitBetween: new FormArray([]),
       customAmounts: new FormArray([]),
     });
+
+    if (this.expenseService.selectedGroup) {
+      this.selectedGroup == this.expenseService.selectedGroup;
+      console.log(
+        'Selected group in add expense from service is',
+        this.selectedGroup
+      );
+
+      this.isGroupSelected = true;
+    }
   }
 
   onGroupChange() {

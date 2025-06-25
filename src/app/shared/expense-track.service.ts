@@ -27,6 +27,8 @@ export class ExpenseTrackService {
 
   groupDb: Group[] = [];
 
+  selectedGroup: string | null = '';
+
   addNewGroup(g: Group[]) {
     g.forEach((el) => {
       this.groupDb.push(el);
