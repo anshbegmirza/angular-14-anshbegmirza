@@ -1,4 +1,38 @@
+<!-- <div class="container">
+  <h2>Balances</h2>
+  <ul>
+    <li *ngFor="let b of balances">
+      {{b.from}} owes {{b.to}} ₹{{b.amount}}
+    </li>
+  </ul>
+  <h3>Net Balances</h3>
+  <ul>
+    <li *ngFor="let user of users">
+      {{user.name}}: ₹{{netBalances[user.name] || 0}}
+    </li>
+  </ul>
+</div> -->
 <div class="container">
+  <h2>Expenses</h2>
+  <ul *ngIf="expenses.length; else noExpenses">
+    <li *ngFor="let exp of expenses">
+      <strong>{{exp.paidBy}}</strong> paid ₹{{exp.amount}}
+      <span *ngIf="exp.description">for "{{exp.description}}"</span>
+      <br>
+      <span>Split ({{exp.splitType}}):</span>
+      <ul>
+        <li *ngFor="let s of exp.splits">
+          {{s.user.name}} owes ₹{{s.amount}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <ng-template #noExpenses>
+    <p>No expenses recorded for this group.</p>
+  </ng-template>
+
+  <hr>
+
   <h2>Balances</h2>
   <ul>
     <li *ngFor="let b of balances">

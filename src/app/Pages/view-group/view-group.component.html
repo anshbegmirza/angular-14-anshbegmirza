@@ -1,5 +1,4 @@
 <div class="main container">
-
   <div *ngIf="showOptions" class="mb-lg-5">
     <ul class="nav justify-content-center">
       <li class="nav-link link-secondary view-group-link">
@@ -16,10 +15,27 @@
     <hr class="custom-line">
     <h3 class="mb-2">Members</h3>
     <ul class="list-group">
-      <li class="list-group-item bg-transparent" *ngFor="let member of members">
+      <li class="list-group-item bg-transparent d-flex justify-content-between" *ngFor="let member of members">
         {{member}}
+        <button (click)="showSetLimit(member)" class="btn btn-outline-info btn-md">Set Limit</button>
       </li>
     </ul>
   </div>
+</div>
 
+<!-- Confirmation div -->
+<div class="overlay" *ngIf="showSetLimitComponent">
+  <mat-card class="delete-card">
+    <mat-card-header class="d-flex flex-column">
+      <mat-card-title class="mb-3">{{selectedMember}}</mat-card-title>
+      <mat-form-field>
+        <mat-label>Set Limit</mat-label>
+        <input type="text" matInput placeholder="200Rs" [(ngModel)]="limitValue">
+      </mat-form-field>
+    </mat-card-header>
+    <mat-card-actions class="d-flex justify-content-between">
+      <button class="btn delete-btn btn-primary btn-sm m-2" (click)="onClear()">Cancel</button>
+      <button class="btn delete-btn btn-danger btn-sm m-2" (click)="onSubmitSetLimit()">Submit</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

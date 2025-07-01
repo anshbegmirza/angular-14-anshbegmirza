@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ExpenseTrackService } from 'src/app/shared/expense-track.service';
 import { User } from 'src/app/shared/user.model';
 import { Group } from '../add-group/group.model';
-import { Balance } from './balance.model';
 
 @Component({
   selector: 'app-view-balance',
@@ -10,14 +9,28 @@ import { Balance } from './balance.model';
   styleUrls: ['./view-balance.component.scss'],
 })
 export class ViewBalanceComponent implements OnInit {
-  groupDb: Group[] = [];
-  balances: Balance[] = [];
+  group: Group | undefined;
+  expenses: any[] = [];
+  balances: any[] = [];
   netBalances: { [user: string]: number } = {};
-  users: User[] = [];
+  users: any[] = [];
+
   constructor(private expenseService: ExpenseTrackService) {}
 
   ngOnInit() {
-    this.groupDb = this.expenseService.groupDb;
+    this.expenseService.loadGroupNameFromLocalStorage();
+    const groupArr = this.expenseService.showGroupDetails(
+      this.expenseService.selectedGroup
+    );
+
+    // console.log('here is view balance component !!!', this.expenses);
+
+    console.log(groupArr);
+    if (groupArr.length) {
+      this.group = groupArr[0];
+      this.expenses = this.group.expense || [];
+      this.users = this.group.members;
+    }
     this.calculateBalances();
   }
 
@@ -25,26 +38,23 @@ export class ViewBalanceComponent implements OnInit {
     const balanceMap: { [key: string]: { [key: string]: number } } = {};
     const net: { [user: string]: number } = {};
 
-    for (const group of this.groupDb) {
-      if (!group.expense) continue;
-      for (const exp of group.expense) {
+    if (this.group && this.group.expense) {
+      for (const exp of this.group.expense) {
         const paidBy = exp.paidBy;
         for (const split of exp.splits) {
-          if (split.user.name === paidBy) continue; // skip payer
-          // Record who owes whom
+          if (split.user.name === paidBy) continue;
+
           if (!balanceMap[split.user.name]) balanceMap[split.user.name] = {};
           if (!balanceMap[split.user.name][paidBy])
             balanceMap[split.user.name][paidBy] = 0;
           balanceMap[split.user.name][paidBy] += split.amount;
 
-          // Net balance
           net[split.user.name] = (net[split.user.name] || 0) - split.amount;
           net[paidBy] = (net[paidBy] || 0) + split.amount;
         }
       }
     }
 
-    // Flatten to array for display
     this.balances = [];
     for (const from in balanceMap) {
       for (const to in balanceMap[from]) {

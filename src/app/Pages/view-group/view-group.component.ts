@@ -18,7 +18,11 @@ export class ViewGroupComponent implements OnInit {
   selectedGroup: string = '';
   groupMembers: any[] = [];
   showOptions = true;
-  members: any[] = [];
+  members: User[] = [];
+  showSetLimitComponent = false;
+  selectedMember: any = '';
+
+  limitValue: number = 0;
 
   ngOnInit(): void {
     this.routes = [
@@ -46,7 +50,6 @@ export class ViewGroupComponent implements OnInit {
 
       console.log(this.groupDb[0].name);
 
-      // this.expenseTrackService.showGroupDetails(this.selectedGroup);
       this.groupMembers = this.expenseTrackService.showGroupDetails(
         this.selectedGroup
       );
@@ -78,7 +81,38 @@ export class ViewGroupComponent implements OnInit {
     this.viewGroupForm.reset();
   }
 
+  showSetLimit(member: any) {
+    this.selectedMember = member;
+    this.showSetLimitComponent = true;
+  }
+
+  onSubmitSetLimit() {
+    console.log(this.limitValue);
+    console.log(this.selectedMember);
+    // console.log(this.groupMembers);
+
+    // this.selectedMember.spendingLimit = this.limitValue;
+    this.limitValue = 0;
+    console.log(this.members);
+    this.showSetLimitComponent = false;
+    const grouptTochange = this.groupMembers[0].members.filter((m: any) => {
+      console.log(m);
+
+      if (m === this.selectedMember) {
+        m.spendingLimit = this.limitValue;
+        console.log(m);
+      }
+    });
+    console.log(grouptTochange);
+  }
+
   onReset() {
     this.viewGroupForm.reset();
+  }
+
+  onClear() {
+    this.limitValue = 0;
+    this.showSetLimitComponent = false;
+    this.selectedMember = null;
   }
 }

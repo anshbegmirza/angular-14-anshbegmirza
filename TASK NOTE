@@ -25,3 +25,11 @@ Split Expenses App (Splitwise Clone):
             - Select who is paying whom and how much.
             - Update balances accordingly.
             - Cannot settle more than owed amount.
+
+
+-- some more functionalities for ease of use.
+
+
+-- setting a user spending limit to each user.
+
+if the user has reached his/her limit then forbid him to spend more.

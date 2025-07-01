@@ -1,4 +1,4 @@
-import { ExpenseTrackService } from './../../shared/expense-track.service';
+import { ExpenseTrackService } from 'src/app/shared/expense-track.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/shared/user.model';
 import { Group } from './group.model';
@@ -61,7 +61,13 @@ export class AddGroupComponent implements OnInit {
 
     // console.log('Group Name:', this.addGroupForm.value.name);
     // console.log('Selected Members:', selectedMembers);
+    // const memberArr: User[] = [
+    //   {
+    //     id: 0,
+    //     name: selectedMembers,
 
+    //   },
+    // ];
     this.GroupFormed.push({ name: groupName, members: selectedMembers });
 
     // console.log(this.GroupFormed);

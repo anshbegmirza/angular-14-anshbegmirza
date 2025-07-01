@@ -11,21 +11,22 @@ import { Group } from '../add-group/group.model';
 })
 export class AddExpensesComponent implements OnInit {
   groupDb: Group[] = [];
-  // users: User[] = [];
   users: User[] = [];
   expenseForm!: FormGroup;
-  owed = [];
   selectedGroup: string = '';
   isGroupSelected = false;
+
   constructor(private expenseService: ExpenseTrackService) {}
 
   ngOnInit() {
     this.expenseService.loadFromLocalStorage();
     this.groupDb = this.expenseService.groupDb;
-    console.log(this.groupDb);
+    this.expenseService.loadGroupNameFromLocalStorage();
+    this.selectedGroup = this.expenseService.selectedGroup;
+
+    this.setUsersForSelectedGroup();
 
     this.expenseForm = new FormGroup({
-      // selectedGroup: new FormControl('', Validators.required),
       paidBy: new FormControl('', Validators.required),
       amount: new FormControl('', [Validators.required, Validators.min(1)]),
       description: new FormControl('', Validators.required),
@@ -33,52 +34,29 @@ export class AddExpensesComponent implements OnInit {
       splitBetween: new FormArray([]),
       customAmounts: new FormArray([]),
     });
-    console.log(this.expenseForm.get('splitBetween'));
-
-    if (this.expenseService.selectedGroup) {
-      this.selectedGroup == this.expenseService.selectedGroup;
-      console.log(
-        'Selected group in add expense from service is',
-        this.selectedGroup
-      );
-
-      this.isGroupSelected = true;
-    }
-
-    this.expenseService.loadGroupNameFromLocalStorage();
-    console.log(this.expenseService.selectedGroup);
-    this.selectedGroup = this.expenseService.selectedGroup;
-
-    console.log(
-      this.expenseService.showGroupDetails(this.selectedGroup)[0].members
-    );
-    this.users = this.expenseService.showGroupDetails(
-      this.selectedGroup
-    )[0].members;
 
     console.log(this.users);
 
-    // this.addMembersInSplitBetweenArray();
+    this.resetUserFormArrays(this.users.length);
   }
 
-  // onGroupChange() {
-  //   const idx = this.expenseForm.value.selectedGroup;
-  //   if (idx === '' || !this.groupDb[idx]) {
-  //     this.users = [];
-  //     this.resetUserFormArrays(0);
-  //     return;
-  //   }
-  //   this.users = (this.groupDb[idx].members as any[])
-  //     .map((member: any) => {
-  //       if (typeof member === 'string') {
-  //         return this.expenseService.Users.find((u) => u.name === member);
-  //       } else {
-  //         return this.expenseService.Users.find((u) => u.id === member.id);
-  //       }
-  //     })
-  //     .filter(Boolean) as User[];
-  //   this.resetUserFormArrays(this.users.length);
-  // }
+  setUsersForSelectedGroup() {
+    const groupArr = this.expenseService.showGroupDetails(this.selectedGroup);
+    if (!groupArr.length) {
+      this.users = [];
+      return;
+    }
+
+    this.users = (groupArr[0].members as any[])
+      .map((member: any) => {
+        if (typeof member === 'string') {
+          return this.expenseService.Users.find((u) => u.name === member);
+        } else {
+          return this.expenseService.Users.find((u) => u.id === member.id);
+        }
+      })
+      .filter(Boolean) as User[];
+  }
 
   resetUserFormArrays(userCount: number) {
     const splitBetween = this.expenseForm.get('splitBetween') as FormArray;
@@ -116,7 +94,6 @@ export class AddExpensesComponent implements OnInit {
 
   onSplitBetweenChange(i: number) {
     const isCustom = this.expenseForm.value.splitType === 'custom';
-
     if (isCustom) {
       if (this.splitBetweenArray.at(i).value) {
         this.customAmountsArray.at(i).enable();
@@ -128,11 +105,15 @@ export class AddExpensesComponent implements OnInit {
   }
 
   onSubmit() {
-    const groupIdx = this.expenseForm.value.selectedGroup;
-    const group = this.groupDb[groupIdx];
+    const groupArr = this.expenseService.showGroupDetails(this.selectedGroup);
+    if (!groupArr.length) return;
+    const group = groupArr[0];
+
     const selectedUsers = this.splitBetweenArray.value
       .map((checked: boolean, i: number) => (checked ? this.users[i] : null))
       .filter((u: User | null) => u !== null);
+
+    if (selectedUsers.length === 0) return;
 
     let splits;
     if (this.expenseForm.value.splitType === 'even') {
@@ -153,13 +134,13 @@ export class AddExpensesComponent implements OnInit {
       description: this.expenseForm.value.description,
       splits,
     });
-    console.log(group);
-    this.onReset();
-    this.expenseService.groupDb = this.groupDb;
+
     this.expenseService.saveToLocalStorage();
+    this.onReset();
   }
 
   onReset() {
     this.expenseForm.reset();
+    this.resetUserFormArrays(this.users.length);
   }
 }

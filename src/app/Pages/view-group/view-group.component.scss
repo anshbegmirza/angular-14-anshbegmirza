@@ -46,3 +46,31 @@ $color-black: #030303;
 .font-size {
   font-size: 1.4rem;
 }
+
+.overlay {
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.delete {
+  &-card {
+    z-index: 12;
+    height: max-content;
+    width: 36rem;
+    max-width: 50rem;
+    color: #000;
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+  }
+
+  &-btn {
+    font-size: 1.4rem;
+  }
+}
