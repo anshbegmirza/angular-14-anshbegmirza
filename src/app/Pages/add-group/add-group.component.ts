@@ -21,8 +21,8 @@ export class AddGroupComponent implements OnInit {
 
   GroupFormed: Group[] = [];
 
-  changeDectected = false;
-
+  showActionMessage = false;
+  errorMessage: string = '';
   ngOnInit(): void {
     this.users = this.ExpenseTrackService.Users;
     // console.log(this.users);
@@ -68,13 +68,21 @@ export class AddGroupComponent implements OnInit {
 
     this.ExpenseTrackService.addNewGroup(this.GroupFormed);
     this.GroupFormed = [];
-    this.changeDectected = true;
+    this.showActionMessage = true;
+    this.errorMessage = `Group Added Successfully !`;
     this.addGroupForm.reset();
     this.ExpenseTrackService.saveToLocalStorage();
+    setInterval(() => {
+      this.showActionMessage = false;
+    }, 2500);
   }
 
   onReset() {
-    this.changeDectected = true;
+    this.showActionMessage = true;
     this.addGroupForm.reset();
+    this.errorMessage = `Form Reset !`;
+    setInterval(() => {
+      this.showActionMessage = false;
+    }, 2500);
   }
 }

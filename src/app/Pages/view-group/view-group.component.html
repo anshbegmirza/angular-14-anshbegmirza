@@ -3,7 +3,7 @@
   <div *ngIf="showOptions" class="mb-lg-5">
     <ul class="nav justify-content-center">
       <li class="nav-link link-secondary view-group-link">
-        <i class=""></i>
+        <i class="bi bi-people"></i>
         Group Name: {{selectedGroup}}
       </li>
       <li *ngFor="let route of routes" class="nav-item">
@@ -20,24 +20,6 @@
         {{member}}
       </li>
     </ul>
-  </div>
-
-  <div class="form" *ngIf="!showOptions" [formGroup]="viewGroupForm">
-    <div class="form-group mb-lg-4">
-      <label class="form-label font-size">Select Group</label>
-      <select class="form-control font-size" formControlName="selectedGroup">
-        <option *ngFor="let group of groupDb; let idx = index" [value]="group.name">
-          {{ group.name }}
-        </option>
-      </select>
-    </div>
-
-    <div class="form-actionables d-flex gap-lg-3">
-      <button class="btn btn-danger btn-lg font-size" [disabled]="viewGroupForm.invalid"
-        (click)="onReset()">Reset</button>
-      <button class="btn btn-primary btn-lg font-size" type="submit" [disabled]="viewGroupForm.invalid"
-        (click)="onSubmit()">Submit</button>
-    </div>
   </div>
 
 </div>

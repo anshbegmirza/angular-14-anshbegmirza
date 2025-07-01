@@ -1,35 +1,40 @@
 <div class="container-fluid outline">
 
   <div class="main">
-    <div class="main-sidebar sidebar border-end">
+    <div class="main-sidebar sidebar side-line">
 
       <ul class="list-group main-sidebar-list d-flex flex-column">
         <!-- <li class="nav-title">Sections</li> -->
 
         <li class="list-item m-1 main-sidebar-list-item" *ngFor="let route of routes">
-          <a [routerLink]="route.path" class="nav-link link-secondary">
+          <a [routerLink]="route.path" class="nav-link ">
             <i class={{route.icon}}></i>
             {{route.name}}
           </a>
         </li>
 
         <li class="list-item m-1 main-sidebar-list-item">
-          <a (click)="onClear()" class="nav-link link-secondary">
+          <a (click)="onClear()" class="nav-link ">
             <i class="bi bi-trash3"></i>
             Clear Storage
           </a>
         </li>
+
+        <li class="list-item m-1 main-sidebar-list-item" *ngIf="GroupExists">
+          <a class="nav-link " (click)="onClickShowChangeDialog()">
+            <i class="bi bi-arrow-repeat"></i>
+            {{showChangeDialog ?'Change Group' : 'Select Group'}}
+          </a>
+        </li>
+
       </ul>
     </div>
+
     <!-- main content -->
     <div class="main-container">
       <div class="main-title d-flex justify-content-between">
-        <h1 class="main-container-title mb-0" *ngIf="!showGroupOptions">SplitWise : <span>anshbegmirza</span></h1>
+        <h1 class="main-container-title mb-0">SplitWise : <span>anshbegmirza</span></h1>
 
-        <!-- show here view group when link is somewhere else. -->
-        <div *ngIf="showGroupOptions">
-          <app-view-group></app-view-group>
-        </div>
       </div>
       <hr class="custom-line">
 
@@ -49,6 +54,34 @@
       </mat-card-actions>
     </mat-card>
   </div>
+
+  <!-- Change or Select group -->
+  <div class="overlay" *ngIf="showChangeDialog">
+    <mat-card class="change-group-card">
+      <mat-card-header>
+        <mat-card-title>Please select group you want to view</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <div class="form change-group-form" *ngIf="!showOptions" [formGroup]="changeGroupFrom">
+          <div class="form-group mb-lg-4">
+            <!-- <label class="form-label font-size">Select Group</label> -->
+            <select class="form-control font-size" formControlName="selectedGroup">
+              <option *ngFor="let group of groupDb; let idx = index" [value]="group.name">
+                {{ group.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-actionables d-flex gap-lg-3">
+            <button class="btn btn-danger btn-lg font-size" (click)="onChangeFormReset()">Cancel</button>
+            <button class="btn btn-primary btn-lg font-size" type="submit" [disabled]="changeGroupFrom.invalid"
+              (click)="onSubmit()">Submit</button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
 
   <footer class="text-center footer">
     <div class="text-center">

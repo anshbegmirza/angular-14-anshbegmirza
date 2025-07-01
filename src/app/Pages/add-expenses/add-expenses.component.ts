@@ -11,10 +11,11 @@ import { Group } from '../add-group/group.model';
 })
 export class AddExpensesComponent implements OnInit {
   groupDb: Group[] = [];
+  // users: User[] = [];
   users: User[] = [];
   expenseForm!: FormGroup;
   owed = [];
-  selectedGroup: string | null = null;
+  selectedGroup: string = '';
   isGroupSelected = false;
   constructor(private expenseService: ExpenseTrackService) {}
 
@@ -24,7 +25,7 @@ export class AddExpensesComponent implements OnInit {
     console.log(this.groupDb);
 
     this.expenseForm = new FormGroup({
-      selectedGroup: new FormControl('', Validators.required),
+      // selectedGroup: new FormControl('', Validators.required),
       paidBy: new FormControl('', Validators.required),
       amount: new FormControl('', [Validators.required, Validators.min(1)]),
       description: new FormControl('', Validators.required),
@@ -32,6 +33,7 @@ export class AddExpensesComponent implements OnInit {
       splitBetween: new FormArray([]),
       customAmounts: new FormArray([]),
     });
+    console.log(this.expenseForm.get('splitBetween'));
 
     if (this.expenseService.selectedGroup) {
       this.selectedGroup == this.expenseService.selectedGroup;
@@ -42,26 +44,41 @@ export class AddExpensesComponent implements OnInit {
 
       this.isGroupSelected = true;
     }
+
+    this.expenseService.loadGroupNameFromLocalStorage();
+    console.log(this.expenseService.selectedGroup);
+    this.selectedGroup = this.expenseService.selectedGroup;
+
+    console.log(
+      this.expenseService.showGroupDetails(this.selectedGroup)[0].members
+    );
+    this.users = this.expenseService.showGroupDetails(
+      this.selectedGroup
+    )[0].members;
+
+    console.log(this.users);
+
+    // this.addMembersInSplitBetweenArray();
   }
 
-  onGroupChange() {
-    const idx = this.expenseForm.value.selectedGroup;
-    if (idx === '' || !this.groupDb[idx]) {
-      this.users = [];
-      this.resetUserFormArrays(0);
-      return;
-    }
-    this.users = (this.groupDb[idx].members as any[])
-      .map((member: any) => {
-        if (typeof member === 'string') {
-          return this.expenseService.Users.find((u) => u.name === member);
-        } else {
-          return this.expenseService.Users.find((u) => u.id === member.id);
-        }
-      })
-      .filter(Boolean) as User[];
-    this.resetUserFormArrays(this.users.length);
-  }
+  // onGroupChange() {
+  //   const idx = this.expenseForm.value.selectedGroup;
+  //   if (idx === '' || !this.groupDb[idx]) {
+  //     this.users = [];
+  //     this.resetUserFormArrays(0);
+  //     return;
+  //   }
+  //   this.users = (this.groupDb[idx].members as any[])
+  //     .map((member: any) => {
+  //       if (typeof member === 'string') {
+  //         return this.expenseService.Users.find((u) => u.name === member);
+  //       } else {
+  //         return this.expenseService.Users.find((u) => u.id === member.id);
+  //       }
+  //     })
+  //     .filter(Boolean) as User[];
+  //   this.resetUserFormArrays(this.users.length);
+  // }
 
   resetUserFormArrays(userCount: number) {
     const splitBetween = this.expenseForm.get('splitBetween') as FormArray;
@@ -99,6 +116,7 @@ export class AddExpensesComponent implements OnInit {
 
   onSplitBetweenChange(i: number) {
     const isCustom = this.expenseForm.value.splitType === 'custom';
+
     if (isCustom) {
       if (this.splitBetweenArray.at(i).value) {
         this.customAmountsArray.at(i).enable();

@@ -27,7 +27,7 @@ export class ExpenseTrackService {
 
   groupDb: Group[] = [];
 
-  selectedGroup: string | null = '';
+  selectedGroup: string = '';
 
   addNewGroup(g: Group[]) {
     g.forEach((el) => {
@@ -52,5 +52,30 @@ export class ExpenseTrackService {
   resetLocalStorage() {
     this.groupDb = [];
     this.saveToLocalStorage();
+  }
+
+  saveGroupNameToLocalStorage(selectedGroupName: string) {
+    localStorage.setItem('groupName', JSON.stringify(selectedGroupName));
+  }
+
+  loadGroupNameFromLocalStorage() {
+    let saved = localStorage.getItem('groupName');
+
+    if (saved) {
+      this.selectedGroup = JSON.parse(saved);
+    } else this.selectedGroup = '';
+  }
+
+  deleteGroupNameToLocalStorage() {
+    localStorage.removeItem('groupName');
+  }
+
+  showGroupDetails(groupName: string): Group[] {
+    // console.log(this.groupDb);
+
+    const foundGrp = this.groupDb.filter((group) => group.name === groupName);
+
+    console.log('Group Found with name in service', foundGrp);
+    return foundGrp;
   }
 }

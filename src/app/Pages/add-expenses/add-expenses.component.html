@@ -1,21 +1,11 @@
 <div class="container">
   <form [formGroup]="expenseForm" class="form" (ngSubmit)="onSubmit()">
 
-    <div class="form-group mb-4">
-      <label class="form-label">Select Group</label>
-
-      <select *ngIf="!isGroupSelected" class="form-control" formControlName="selectedGroup" (change)="onGroupChange()">
-        <option *ngFor="let group of groupDb; let idx = index" [value]="idx">
-          {{ group.name }}
-        </option>
-      </select>
-      <h6 *ngIf="isGroupSelected">{{selectedGroup}}</h6>
-    </div>
-
+    <label class="form-label mb-3">Group Name : {{selectedGroup}}</label>
     <div class="form-group mb-4">
       <label class="form-label">Paid By</label>
       <select class="form-control" formControlName="paidBy">
-        <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+        <option *ngFor="let user of users" [value]="user">{{user}}</option>
       </select>
     </div>
 
@@ -35,14 +25,18 @@
         <div *ngFor="let user of users; let i = index"
           class="form-check d-flex align-content-center align-items-center gap-3">
           <input type="checkbox" class="form-check-input" [formControlName]="i" (change)="onSplitBetweenChange(i)">
-          <label class="form-check-label mt-2">{{user.name}}</label>
+
+          <label class="form-check-label mt-2">{{user}}</label>
+
           <ng-container *ngIf="expenseForm.value.splitType === 'custom' && splitBetweenArray.at(i).value">
             <input class="form-control mb-4 ms-2" type="number" [formControl]="asFormControl(customAmountsArray.at(i))"
               placeholder="Amount">
           </ng-container>
+
         </div>
       </div>
     </div>
+
 
     <div class="form-group mb-4">
       <label class="form-label">Split type:</label>

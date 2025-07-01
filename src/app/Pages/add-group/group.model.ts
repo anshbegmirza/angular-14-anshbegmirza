@@ -2,7 +2,7 @@ import { User } from 'src/app/shared/user.model';
 
 export interface Group {
   name: string;
-  members: User[] | string[];
+  members: User[];
   expense?: {
     paidBy: string;
     amount: number;

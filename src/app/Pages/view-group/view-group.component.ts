@@ -12,12 +12,12 @@ export class ViewGroupComponent implements OnInit {
   routes: any[] = [];
 
   constructor(private expenseTrackService: ExpenseTrackService) {}
-  users: User[] = [];
+  // users: User[] = [];
   viewGroupForm!: FormGroup;
   groupDb: Group[] = [];
   selectedGroup: string = '';
-
-  showOptions = false;
+  groupMembers: any[] = [];
+  showOptions = true;
   members: any[] = [];
 
   ngOnInit(): void {
@@ -40,6 +40,23 @@ export class ViewGroupComponent implements OnInit {
     ];
 
     this.groupDb = this.expenseTrackService.groupDb;
+
+    if (this.groupDb.length === 1) {
+      this.selectedGroup = this.groupDb[0].name;
+
+      console.log(this.groupDb[0].name);
+
+      // this.expenseTrackService.showGroupDetails(this.selectedGroup);
+      this.groupMembers = this.expenseTrackService.showGroupDetails(
+        this.selectedGroup
+      );
+      console.log(this.groupMembers);
+      this.members = this.groupMembers[0].members;
+      console.log(this.members);
+
+      console.log('view group selected group', this.selectedGroup);
+      this.expenseTrackService.saveGroupNameToLocalStorage(this.selectedGroup);
+    }
 
     this.viewGroupForm = new FormGroup({
       selectedGroup: new FormControl('', Validators.required),

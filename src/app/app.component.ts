@@ -1,6 +1,8 @@
 import { ExpenseTrackService } from './shared/expense-track.service';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Group } from './Pages/add-group/group.model';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,10 +24,24 @@ export class AppComponent implements OnInit {
 
   showDeleteDialog: boolean = false;
 
-  showGroupOptions = false;
+  showChangeDialog = false;
+
+  selectedGroup: string | null = null;
+
+  changeGroupFrom!: FormGroup;
+  groupDb: Group[] = [];
+  showOptions = false;
+  GroupExists = false;
 
   ngOnInit(): void {
     const currentUrl: string = window.location.href;
+
+    this.groupDb = this.ExpenseTrackService.groupDb;
+    if (this.groupDb.length !== 0 || this.groupDb.length > 1) {
+      this.GroupExists = true;
+    }
+    console.log(this.groupDb);
+
     this.routes = [
       {
         path: '/addGroup',
@@ -53,6 +69,10 @@ export class AppComponent implements OnInit {
     } else {
       console.log('Application reloaded (likely a refresh).');
     }
+
+    this.changeGroupFrom = new FormGroup({
+      selectedGroup: new FormControl('', Validators.required),
+    });
   }
 
   clearFirstLoadFlag() {
@@ -64,7 +84,22 @@ export class AppComponent implements OnInit {
     this.showDeleteDialog = !this.showDeleteDialog;
   }
 
+  onChangeFormReset() {
+    this.changeGroupFrom.reset();
+    this.showChangeDialog = false;
+  }
+
   onClear() {
     this.showDeleteDialog = !this.showDeleteDialog;
+  }
+
+  onClickShowChangeDialog() {
+    this.showChangeDialog = !this.showChangeDialog;
+  }
+
+  onSubmit() {
+    this.selectedGroup = this.changeGroupFrom.value.selectedGroup;
+    console.log(this.selectedGroup);
+    this.showChangeDialog = !this.showChangeDialog;
   }
 }
