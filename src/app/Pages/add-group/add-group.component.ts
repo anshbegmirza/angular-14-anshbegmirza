@@ -20,7 +20,7 @@ export class AddGroupComponent implements OnInit {
   userName: any[] = [];
 
   GroupFormed: Group[] = [];
-
+  count: number = 0;
   showActionMessage = false;
   errorMessage: string = '';
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class AddGroupComponent implements OnInit {
     this.users.forEach((user) => {
       this.userName.push(user.name);
     });
-    console.log(this.userName);
+    // console.log(this.userName);
 
     this.addGroupForm = new FormGroup({
       name: new FormControl('', [
@@ -45,7 +45,7 @@ export class AddGroupComponent implements OnInit {
   }
 
   getMembersFromFormArray() {
-    console.log(this.addGroupForm.get('members'));
+    // console.log(this.addGroupForm.get('members'));
 
     return this.addGroupForm.get('members');
   }
@@ -53,24 +53,15 @@ export class AddGroupComponent implements OnInit {
   onSubmit() {
     const groupName = this.addGroupForm.value.name;
 
-    const selectedMembers = this.addGroupForm.value.members
-      .map((checked: boolean, i: number) =>
-        checked ? this.users[i].name : null
-      )
-      .filter((name: string | null) => name !== null);
+    const selectedMembers: User[] = this.addGroupForm.value.members
+      .map((checked: boolean, i: number) => (checked ? this.users[i] : null))
+      .filter((user: User | null) => user !== null)
+      .map((user: User) => ({
+        ...user,
+      }));
 
-    // console.log('Group Name:', this.addGroupForm.value.name);
-    // console.log('Selected Members:', selectedMembers);
-    // const memberArr: User[] = [
-    //   {
-    //     id: 0,
-    //     name: selectedMembers,
-
-    //   },
-    // ];
     this.GroupFormed.push({ name: groupName, members: selectedMembers });
-
-    // console.log(this.GroupFormed);
+    console.log(this.GroupFormed);
 
     this.ExpenseTrackService.addNewGroup(this.GroupFormed);
     this.GroupFormed = [];
@@ -78,9 +69,10 @@ export class AddGroupComponent implements OnInit {
     this.errorMessage = `Group Added Successfully !`;
     this.addGroupForm.reset();
     this.ExpenseTrackService.saveToLocalStorage();
+
     setInterval(() => {
       this.showActionMessage = false;
-    }, 2500);
+    }, 1500);
   }
 
   onReset() {

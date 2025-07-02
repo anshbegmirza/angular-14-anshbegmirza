@@ -25,7 +25,7 @@ export class ViewBalanceComponent implements OnInit {
 
     // console.log('here is view balance component !!!', this.expenses);
 
-    console.log(groupArr);
+    // console.log(groupArr);
     if (groupArr.length) {
       this.group = groupArr[0];
       this.expenses = this.group.expense || [];

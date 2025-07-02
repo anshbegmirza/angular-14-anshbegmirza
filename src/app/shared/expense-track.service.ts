@@ -24,7 +24,7 @@ export class ExpenseTrackService {
       name: 'Charlie',
     },
   ];
-
+  count: number = 1;
   groupDb: Group[] = [];
 
   selectedGroup: string = '';
@@ -34,7 +34,7 @@ export class ExpenseTrackService {
       this.groupDb.push(el);
     });
 
-    console.log(this.groupDb);
+    // console.log(this.groupDb);
   }
 
   loadFromLocalStorage() {
@@ -71,11 +71,13 @@ export class ExpenseTrackService {
   }
 
   showGroupDetails(groupName: string): Group[] {
-    // console.log(this.groupDb);
-
     const foundGrp = this.groupDb.filter((group) => group.name === groupName);
 
-    console.log('Group Found with name in service', foundGrp);
     return foundGrp;
+  }
+
+  generateUniqueUserID() {
+    // console.log(this.count);
+    return this.count++;
   }
 }

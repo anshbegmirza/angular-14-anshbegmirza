@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { User } from 'src/app/shared/user.model';
 import { Group } from '../add-group/group.model';
+import { group } from '@angular/animations';
 @Component({
   selector: 'app-view-group',
   templateUrl: './view-group.component.html',
@@ -23,6 +24,8 @@ export class ViewGroupComponent implements OnInit {
   selectedMember: any = '';
 
   limitValue: number = 0;
+
+  foundGroup: Group[] = [];
 
   ngOnInit(): void {
     this.routes = [
@@ -48,18 +51,26 @@ export class ViewGroupComponent implements OnInit {
     if (this.groupDb.length === 1) {
       this.selectedGroup = this.groupDb[0].name;
 
-      console.log(this.groupDb[0].name);
-
       this.groupMembers = this.expenseTrackService.showGroupDetails(
         this.selectedGroup
       );
-      console.log(this.groupMembers);
-      this.members = this.groupMembers[0].members;
-      console.log(this.members);
 
-      console.log('view group selected group', this.selectedGroup);
+      this.members = this.groupMembers[0].members;
+
       this.expenseTrackService.saveGroupNameToLocalStorage(this.selectedGroup);
     }
+
+    this.expenseTrackService.loadGroupNameFromLocalStorage();
+    // console.log(this.expenseTrackService.loadGroupNameFromLocalStorage());
+
+    this.selectedGroup = this.expenseTrackService.selectedGroup;
+    this.foundGroup = this.expenseTrackService.showGroupDetails(
+      this.selectedGroup
+    );
+    this.members = this.foundGroup[0].members;
+    // this.members = foundGroup[0].members;
+    console.log(this.foundGroup);
+    console.log(this.members, this.selectedGroup);
 
     this.viewGroupForm = new FormGroup({
       selectedGroup: new FormControl('', Validators.required),
@@ -69,7 +80,7 @@ export class ViewGroupComponent implements OnInit {
   onSubmit() {
     this.selectedGroup = this.viewGroupForm.value.selectedGroup;
     this.expenseTrackService.selectedGroup = this.selectedGroup;
-    console.log('name in service', this.expenseTrackService.selectedGroup);
+    // console.log('name in service', this.expenseTrackService.selectedGroup);
     this.showOptions = true;
 
     this.groupDb.filter((gc) => {
@@ -87,23 +98,11 @@ export class ViewGroupComponent implements OnInit {
   }
 
   onSubmitSetLimit() {
-    console.log(this.limitValue);
-    console.log(this.selectedMember);
-    // console.log(this.groupMembers);
-
-    // this.selectedMember.spendingLimit = this.limitValue;
-    this.limitValue = 0;
-    console.log(this.members);
     this.showSetLimitComponent = false;
-    const grouptTochange = this.groupMembers[0].members.filter((m: any) => {
-      console.log(m);
-
-      if (m === this.selectedMember) {
-        m.spendingLimit = this.limitValue;
-        console.log(m);
-      }
-    });
-    console.log(grouptTochange);
+    this.selectedMember.spendingLimit = this.limitValue;
+    console.log(this.selectedMember, this.foundGroup);
+    this.expenseTrackService.saveToLocalStorage();
+    this.limitValue = 0;
   }
 
   onReset() {

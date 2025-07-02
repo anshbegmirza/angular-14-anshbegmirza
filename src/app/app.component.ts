@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 
   showChangeDialog = false;
 
-  selectedGroup: string | null = null;
+  selectedGroup: string = '';
 
   changeGroupFrom!: FormGroup;
   groupDb: Group[] = [];
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
     if (this.groupDb.length !== 0 || this.groupDb.length > 1) {
       this.GroupExists = true;
     }
-    console.log(this.groupDb);
+    // console.log(this.groupDb);
 
     this.routes = [
       {
@@ -55,9 +55,9 @@ export class AppComponent implements OnInit {
       },
     ];
 
-    console.log(currentUrl);
+    // console.log(currentUrl);
     if (this.ExpenseTrackService.selectedGroup) {
-      console.log(this.ExpenseTrackService.selectedGroup);
+      // console.log(this.ExpenseTrackService.selectedGroup);
     }
 
     if (!sessionStorage.getItem('firstLoad')) {
@@ -82,6 +82,8 @@ export class AppComponent implements OnInit {
   onReset() {
     this.ExpenseTrackService.resetLocalStorage();
     this.showDeleteDialog = !this.showDeleteDialog;
+    this.selectedGroup = '';
+    this.ExpenseTrackService.saveGroupNameToLocalStorage(this.selectedGroup);
   }
 
   onChangeFormReset() {
@@ -99,7 +101,8 @@ export class AppComponent implements OnInit {
 
   onSubmit() {
     this.selectedGroup = this.changeGroupFrom.value.selectedGroup;
-    console.log(this.selectedGroup);
+    this.ExpenseTrackService.saveGroupNameToLocalStorage(this.selectedGroup);
+    // console.log(this.selectedGroup);
     this.showChangeDialog = !this.showChangeDialog;
   }
 }

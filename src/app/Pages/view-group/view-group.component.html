@@ -1,4 +1,4 @@
-<div class="main container">
+<div class="main container gradinet-border">
   <div *ngIf="showOptions" class="mb-lg-5">
     <ul class="nav justify-content-center">
       <li class="nav-link link-secondary view-group-link">
@@ -13,11 +13,20 @@
       </li>
     </ul>
     <hr class="custom-line">
-    <h3 class="mb-2">Members</h3>
+    <h3 class="mb-2 heading-text">Members</h3>
     <ul class="list-group">
       <li class="list-group-item bg-transparent d-flex justify-content-between" *ngFor="let member of members">
-        {{member}}
-        <button (click)="showSetLimit(member)" class="btn btn-outline-info btn-md">Set Limit</button>
+        {{member.name}}
+
+        <div><span *ngIf="member.spendingLimit" class="list-group-help-text">
+            Limit :
+            <i class="bi bi-currency-rupee"></i>{{member.spendingLimit}}
+          </span>
+          <button (click)="showSetLimit(member)" class="btn view-group-link btn-sm">
+            <!-- Set Limit -->
+            {{member.spendingLimit ? 'Change' : 'Set Limit'}}
+          </button>
+        </div>
       </li>
     </ul>
   </div>
@@ -27,15 +36,15 @@
 <div class="overlay" *ngIf="showSetLimitComponent">
   <mat-card class="delete-card">
     <mat-card-header class="d-flex flex-column">
-      <mat-card-title class="mb-3">{{selectedMember}}</mat-card-title>
+      <mat-card-title class="mb-3">{{selectedMember.name}}</mat-card-title>
       <mat-form-field>
         <mat-label>Set Limit</mat-label>
         <input type="text" matInput placeholder="200Rs" [(ngModel)]="limitValue">
       </mat-form-field>
     </mat-card-header>
     <mat-card-actions class="d-flex justify-content-between">
-      <button class="btn delete-btn btn-primary btn-sm m-2" (click)="onClear()">Cancel</button>
-      <button class="btn delete-btn btn-danger btn-sm m-2" (click)="onSubmitSetLimit()">Submit</button>
+      <button class="btn   view-group-link m-2" (click)="onClear()">Cancel</button>
+      <button class="btn   view-group-link m-2" (click)="onSubmitSetLimit()">Submit</button>
     </mat-card-actions>
   </mat-card>
 </div>

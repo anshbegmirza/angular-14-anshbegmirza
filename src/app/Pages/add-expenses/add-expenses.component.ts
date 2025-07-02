@@ -35,7 +35,7 @@ export class AddExpensesComponent implements OnInit {
       customAmounts: new FormArray([]),
     });
 
-    console.log(this.users);
+    // console.log(this.users);
 
     this.resetUserFormArrays(this.users.length);
   }
