@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container gradientborder">
   <form [formGroup]="expenseForm" class="form" (ngSubmit)="onSubmit()">
 
-    <label class="form-label mb-3">Group Name : {{selectedGroup}}</label>
+    <label class="form-label mb-3 groupName">Group Name : {{selectedGroup}}</label>
     <div class="form-group mb-4">
       <label class="form-label">Paid By</label>
       <select class="form-control" formControlName="paidBy">
@@ -44,9 +44,11 @@
       <input type="radio" formControlName="splitType" value="custom" (change)="onSplitTypeChange()"> Custom
     </div>
 
-    <div class="actionables d-flex gap-lg-3">
-      <button class="btn btn-danger btn-lg" [disabled]="!expenseForm.valid" (click)="onReset()">Cancel</button>
-      <button class="btn btn-primary btn-lg" type="submit" [disabled]="!expenseForm.valid">Add Expense</button>
+    <div class="actionables d-flex">
+      <button class="btn btn-lg custom-gradient-border" [disabled]="!expenseForm.valid"
+        (click)="onReset()">Cancel</button>
+      <button class="btn btn-lg custom-gradient-border" type="submit" [disabled]="!expenseForm.valid">Add
+        Expense</button>
     </div>
 
   </form>

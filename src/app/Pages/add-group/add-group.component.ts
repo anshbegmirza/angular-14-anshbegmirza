@@ -36,7 +36,7 @@ export class AddGroupComponent implements OnInit {
       name: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(50),
+        Validators.maxLength(30),
       ]),
       members: new FormArray(this.users.map(() => new FormControl(false))),
     });

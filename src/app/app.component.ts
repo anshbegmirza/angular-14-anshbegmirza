@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   year = new Date().getFullYear();
 
   routes: any[] = [];
-
+  navOptions: any[] = [];
   isLinkGroup = false;
 
   constructor(
@@ -42,6 +42,10 @@ export class AppComponent implements OnInit {
     }
     // console.log(this.groupDb);
 
+    // selectedGroup
+    this.ExpenseTrackService.loadGroupNameFromLocalStorage();
+    this.selectedGroup = this.ExpenseTrackService.selectedGroup;
+
     this.routes = [
       {
         path: '/addGroup',
@@ -55,10 +59,23 @@ export class AppComponent implements OnInit {
       },
     ];
 
-    // console.log(currentUrl);
-    if (this.ExpenseTrackService.selectedGroup) {
-      // console.log(this.ExpenseTrackService.selectedGroup);
-    }
+    this.navOptions = [
+      {
+        path: '/addExpenses',
+        name: 'Add Expenses',
+        icon: 'bi bi-cash-coin',
+      },
+      {
+        path: '/viewBalance',
+        name: 'View Balance',
+        icon: 'bi bi-bank',
+      },
+      {
+        path: '/settleUp',
+        name: 'Settle Up',
+        icon: 'bi bi-coin',
+      },
+    ];
 
     if (!sessionStorage.getItem('firstLoad')) {
       sessionStorage.setItem('firstLoad', 'true');

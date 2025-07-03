@@ -26,7 +26,6 @@
             {{showChangeDialog ?'Change Group' : 'Select Group'}}
           </a>
         </li>
-
       </ul>
     </div>
 
@@ -34,7 +33,18 @@
     <div class="main-container">
       <div class="main-title d-flex justify-content-between">
         <h1 class="main-container-title mb-0">SplitWise : <span>anshbegmirza</span></h1>
-
+        <ul class="nav justify-content-center">
+          <li class="nav-link link-secondary view-group-link">
+            <i class="bi bi-people"></i>
+            Group Name: {{selectedGroup}}
+          </li>
+          <li *ngFor="let route of navOptions" class="nav-item">
+            <a [routerLink]="route.path" class="nav-link link-secondary view-group-link">
+              <i class={{route.icon}}></i>
+              {{route.name}}
+            </a>
+          </li>
+        </ul>
       </div>
       <hr class="custom-line">
 

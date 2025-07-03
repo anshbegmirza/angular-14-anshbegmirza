@@ -1,0 +1,37 @@
+<div class="container gradient-border">
+  <h2 class="container-title">Settle Up</h2>
+  <div *ngIf="members.length > 1">
+    <div class="mb-3">
+      <label class="form-label">Payer:</label>
+      <select [(ngModel)]="payer" (change)="onPayerChange()" class="form-select">
+        <option value="" disabled selected>Select payer</option>
+        <option *ngFor="let m of members" [value]="m.name">
+          <!-- [disabled]="(netBalances[m.name] || 0) >= 0" -->
+          {{m.name}}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Payee:</label>
+      <select [(ngModel)]="payee" (change)="onPayeeChange()" class="form-select">
+        <option value="" disabled selected>Select payee</option>
+        <option *ngFor="let m of members" [value]="m.name">{{m.name}}</option>
+        <!-- [disabled]="m.name === payer || (netBalances[m.name] || 0) <= 0" -->
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Amount:</label>
+      <input type="number" class="form-control" [(ngModel)]="amount" [max]="maxAmount" [min]="1"
+        [placeholder]="'Max: ' + maxAmount" />
+    </div>
+
+    <div class="actionables ">
+      <button class="btn gradient-btn  btn-primary" (click)="onReset()">Cancel</button>
+      <button class="btn gradient-btn  btn-primary" (click)="settleUp()">Settle</button>
+    </div>
+    <div class="success-text mt-2" *ngIf="showActionMessage">* {{message}}</div>
+  </div>
+  <div *ngIf="members.length <= 1">
+    <p>Add more members to settle up.</p>
+  </div>
+</div>
